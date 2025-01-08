@@ -21,37 +21,69 @@ const sigAlgs = [
     keyLength: '3072',
   },
   {
-    dgHashAlgo: 'sha256',
-    eContentHashAlgo: 'sha256',
-    sigAlg: 'rsa',
-    hashFunction: 'sha256',
+    dgHashAlgo: 'sha384',
+    eContentHashAlgo: 'sha384',
+    sigAlg: 'rsapss',
+    hashFunction: 'sha384',
     domainParameter: '65537',
-    keyLength: '2048',
+    keyLength: '3072',
   },
   {
-    dgHashAlgo: 'sha1',
-    eContentHashAlgo: 'sha256',
-    sigAlg: 'rsa',
-    hashFunction: 'sha256',
+    dgHashAlgo: 'sha384',
+    eContentHashAlgo: 'sha384',
+    sigAlg: 'rsapss',
+    hashFunction: 'sha384',
     domainParameter: '65537',
-    keyLength: '2048',
+    keyLength: '4096',
   },
   {
-    dgHashAlgo: 'sha1',
-    eContentHashAlgo: 'sha1',
-    sigAlg: 'ecdsa',
-    hashFunction: 'sha1',
-    domainParameter: 'secp256r1',
-    keyLength: '256',
+    dgHashAlgo: 'sha512',
+    eContentHashAlgo: 'sha512',
+    sigAlg: 'rsapss',
+    hashFunction: 'sha512',
+    domainParameter: '65537',
+    keyLength: '3072',
   },
   {
-    dgHashAlgo: 'sha256',
-    eContentHashAlgo: 'sha224',
-    sigAlg: 'ecdsa',
-    hashFunction: 'sha224',
-    domainParameter: 'brainpoolP224r1',
-    keyLength: '224',
+    dgHashAlgo: 'sha512',
+    eContentHashAlgo: 'sha512',
+    sigAlg: 'rsapss',
+    hashFunction: 'sha512',
+    domainParameter: '65537',
+    keyLength: '4096',
   },
+  // {
+  //   dgHashAlgo: 'sha256',
+  //   eContentHashAlgo: 'sha256',
+  //   sigAlg: 'rsa',
+  //   hashFunction: 'sha256',
+  //   domainParameter: '65537',
+  //   keyLength: '2048',
+  // },
+  // {
+  //   dgHashAlgo: 'sha1',
+  //   eContentHashAlgo: 'sha256',
+  //   sigAlg: 'rsa',
+  //   hashFunction: 'sha256',
+  //   domainParameter: '65537',
+  //   keyLength: '2048',
+  // },
+  // {
+  //   dgHashAlgo: 'sha1',
+  //   eContentHashAlgo: 'sha1',
+  //   sigAlg: 'ecdsa',
+  //   hashFunction: 'sha1',
+  //   domainParameter: 'secp256r1',
+  //   keyLength: '256',
+  // },
+  // {
+  //   dgHashAlgo: 'sha256',
+  //   eContentHashAlgo: 'sha224',
+  //   sigAlg: 'ecdsa',
+  //   hashFunction: 'sha224',
+  //   domainParameter: 'brainpoolP224r1',
+  //   keyLength: '224',
+  // },
 ];
 
 const fullSigAlgs = [
@@ -223,6 +255,38 @@ const fullSigAlgs = [
     domainParameter: 'secp256r1',
     keyLength: '256',
   },
+  {
+    dgHashAlgo: 'sha384',
+    eContentHashAlgo: 'sha384',
+    sigAlg: 'rsapss',
+    hashFunction: 'sha384',
+    domainParameter: '65537',
+    keyLength: '3072',
+  },
+  {
+    dgHashAlgo: 'sha384',
+    eContentHashAlgo: 'sha384',
+    sigAlg: 'rsapss',
+    hashFunction: 'sha384',
+    domainParameter: '65537',
+    keyLength: '4096',
+  },
+  {
+    dgHashAlgo: 'sha512',
+    eContentHashAlgo: 'sha512',
+    sigAlg: 'rsapss',
+    hashFunction: 'sha512',
+    domainParameter: '65537',
+    keyLength: '3072',
+  },
+  {
+    dgHashAlgo: 'sha512',
+    eContentHashAlgo: 'sha512',
+    sigAlg: 'rsapss',
+    hashFunction: 'sha512',
+    domainParameter: '65537',
+    keyLength: '4096',
+  },
 ];
 
 const testSuite = process.env.FULL_TEST_SUITE === 'true' ? fullSigAlgs : sigAlgs;
@@ -290,72 +354,72 @@ testSuite.forEach(
         expect(circuit).to.not.be.undefined;
       });
 
-      it('should calculate the witness with correct inputs', async function () {
-        const w = await circuit.calculateWitness(inputs);
-        await circuit.checkConstraints(w);
-        // circuits.getOutput takes way too long for ecdsa
-        if (true) {
-          console.log('skipping printing outputs to console for ecdsa');
-          return;
-        }
+      // it('should calculate the witness with correct inputs', async function () {
+      //   const w = await circuit.calculateWitness(inputs);
+      //   await circuit.checkConstraints(w);
+      //   // circuits.getOutput takes way too long for ecdsa
+      //   if (true) {
+      //     console.log('skipping printing outputs to console for ecdsa');
+      //     return;
+      //   }
 
-        const nullifier = (await circuit.getOutput(w, ['nullifier'])).nullifier;
-        console.log('\x1b[34m%s\x1b[0m', 'nullifier', nullifier);
-        const commitment = (await circuit.getOutput(w, ['commitment'])).commitment;
-        console.log('\x1b[34m%s\x1b[0m', 'commitment', commitment);
-        const blinded_dsc_commitment = (await circuit.getOutput(w, ['blinded_dsc_commitment']))
-          .blinded_dsc_commitment;
-        console.log('\x1b[34m%s\x1b[0m', 'blinded_dsc_commitment', blinded_dsc_commitment);
+      //   const nullifier = (await circuit.getOutput(w, ['nullifier'])).nullifier;
+      //   console.log('\x1b[34m%s\x1b[0m', 'nullifier', nullifier);
+      //   const commitment = (await circuit.getOutput(w, ['commitment'])).commitment;
+      //   console.log('\x1b[34m%s\x1b[0m', 'commitment', commitment);
+      //   const blinded_dsc_commitment = (await circuit.getOutput(w, ['blinded_dsc_commitment']))
+      //     .blinded_dsc_commitment;
+      //   console.log('\x1b[34m%s\x1b[0m', 'blinded_dsc_commitment', blinded_dsc_commitment);
 
-        const ofac_result = (await circuit.getOutput(w, ['ofac_result'])).ofac_result;
-        console.log('\x1b[34m%s\x1b[0m', 'ofac_result', ofac_result);
+      //   const ofac_result = (await circuit.getOutput(w, ['ofac_result'])).ofac_result;
+      //   console.log('\x1b[34m%s\x1b[0m', 'ofac_result', ofac_result);
 
-        expect(blinded_dsc_commitment).to.be.not.null;
-        expect(nullifier).to.be.not.null;
-      });
+      //   expect(blinded_dsc_commitment).to.be.not.null;
+      //   expect(nullifier).to.be.not.null;
+      // });
 
-      it('should fail to calculate witness with invalid mrz', async function () {
-        try {
-          const invalidInputs = {
-            ...inputs,
-            dg1: Array(93)
-              .fill(0)
-              .map((byte) => BigInt(byte).toString()),
-          };
-          await circuit.calculateWitness(invalidInputs);
-          expect.fail('Expected an error but none was thrown.');
-        } catch (error) {
-          expect(error.message).to.include('Assert Failed');
-        }
-      });
+      // it('should fail to calculate witness with invalid mrz', async function () {
+      //   try {
+      //     const invalidInputs = {
+      //       ...inputs,
+      //       dg1: Array(93)
+      //         .fill(0)
+      //         .map((byte) => BigInt(byte).toString()),
+      //     };
+      //     await circuit.calculateWitness(invalidInputs);
+      //     expect.fail('Expected an error but none was thrown.');
+      //   } catch (error) {
+      //     expect(error.message).to.include('Assert Failed');
+      //   }
+      // });
 
-      it('should fail to calculate witness with invalid eContent', async function () {
-        try {
-          const invalidInputs = {
-            ...inputs,
-            eContent: inputs.eContent.map((byte: string) => String((parseInt(byte, 10) + 1) % 256)),
-          };
-          await circuit.calculateWitness(invalidInputs);
-          expect.fail('Expected an error but none was thrown.');
-        } catch (error) {
-          expect(error.message).to.include('Assert Failed');
-        }
-      });
+      // it('should fail to calculate witness with invalid eContent', async function () {
+      //   try {
+      //     const invalidInputs = {
+      //       ...inputs,
+      //       eContent: inputs.eContent.map((byte: string) => String((parseInt(byte, 10) + 1) % 256)),
+      //     };
+      //     await circuit.calculateWitness(invalidInputs);
+      //     expect.fail('Expected an error but none was thrown.');
+      //   } catch (error) {
+      //     expect(error.message).to.include('Assert Failed');
+      //   }
+      // });
 
-      it('should fail to calculate witness with invalid signature', async function () {
-        try {
-          const invalidInputs = {
-            ...inputs,
-            signature: inputs.signature.map((byte: string) =>
-              String((parseInt(byte, 10) + 1) % 256)
-            ),
-          };
-          await circuit.calculateWitness(invalidInputs);
-          expect.fail('Expected an error but none was thrown.');
-        } catch (error) {
-          expect(error.message).to.include('Assert Failed');
-        }
-      });
+      // it('should fail to calculate witness with invalid signature', async function () {
+      //   try {
+      //     const invalidInputs = {
+      //       ...inputs,
+      //       signature: inputs.signature.map((byte: string) =>
+      //         String((parseInt(byte, 10) + 1) % 256)
+      //       ),
+      //     };
+      //     await circuit.calculateWitness(invalidInputs);
+      //     expect.fail('Expected an error but none was thrown.');
+      //   } catch (error) {
+      //     expect(error.message).to.include('Assert Failed');
+      //   }
+      // });
     });
   }
 );

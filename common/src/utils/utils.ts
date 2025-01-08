@@ -18,6 +18,7 @@ import {
   k_dsc_3072,
 } from '../constants/constants';
 import { unpackReveal } from './revealBitmap';
+import cryto from 'crypto';
 import { SignatureAlgorithm } from './types';
 
 export function formatMrz(mrz: string) {
@@ -244,6 +245,7 @@ export function hash(hashFunction: string, bytesArray: number[]): number[] {
   const unsignedBytesArray = bytesArray.map((byte) => byte & 0xff);
   let hashResult: string;
 
+  let hasher;
   switch (hashFunction) {
     case 'sha1':
       hashResult = sha1(unsignedBytesArray);
@@ -255,10 +257,17 @@ export function hash(hashFunction: string, bytesArray: number[]): number[] {
       hashResult = sha256(unsignedBytesArray);
       break;
     case 'sha384':
-      hashResult = sha384(unsignedBytesArray);
+      // hashResult = sha384(unsignedBytesArray);
+      hasher = cryto.createHash('sha384');
+      hasher.update(Buffer.from(unsignedBytesArray));
+      hashResult = hasher.digest('hex');
+
       break;
     case 'sha512':
-      hashResult = sha512(unsignedBytesArray);
+      // hashResult = sha512_256(unsignedBytesArray);
+      hasher = cryto.createHash('sha512');
+      hasher.update(Buffer.from(unsignedBytesArray));
+      hashResult = hasher.digest('hex');
       break;
     default:
       console.log('\x1b[31m%s\x1b[0m', `${hashFunction} not found in hash`); // Log in red

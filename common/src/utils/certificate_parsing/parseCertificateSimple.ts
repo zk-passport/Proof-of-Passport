@@ -44,7 +44,9 @@ export function parseCertificateSimple(pem: string): CertificateData {
     }
 
     const cert = new Certificate({ schema: asn1.result });
-    const publicKeyAlgoOID = cert.subjectPublicKeyInfo.algorithm.algorithmId;
+    //TODO-seshanth confirm
+    // const publicKeyAlgoOID = cert.subjectPublicKeyInfo.algorithm.algorithmId;
+    const publicKeyAlgoOID = cert.signature.algorithmId;
     const publicKeyAlgoFN = getFriendlyName(publicKeyAlgoOID);
     const signatureAlgoOID = cert.signatureAlgorithm.algorithmId;
     const signatureAlgoFN = getFriendlyName(signatureAlgoOID);

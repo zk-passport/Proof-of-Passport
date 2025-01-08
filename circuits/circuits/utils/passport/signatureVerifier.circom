@@ -52,6 +52,9 @@ template SignatureVerifier(signatureAlgorithm, n, k) {
         || signatureAlgorithm == 17
         || signatureAlgorithm == 18
         || signatureAlgorithm == 19
+        || signatureAlgorithm == 31
+        || signatureAlgorithm == 32
+        || signatureAlgorithm == 33
     ) {
         var pubKeyBitsLength = getKeyLength(signatureAlgorithm);
         var SALT_LEN = HASH_LEN_BITS / 8;
