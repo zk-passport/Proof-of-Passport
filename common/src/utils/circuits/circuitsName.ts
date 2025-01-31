@@ -9,14 +9,13 @@ import { parsePassportData } from '../passports/passport_parsing/parsePassportDa
 
 export function getCircuitNameFromPassportData(passportData: PassportData, circuitType: 'register' | 'dsc') {
   if (circuitType === 'register') {
-    return getDSRegisterNameFromPassportData(passportData);
+    return getRegisterNameFromPassportData(passportData);
   } else {
     return getDSCircuitNameFromPassportData(passportData);
   }
 }
 
 function getDSCircuitNameFromPassportData(passportData: PassportData) {
-
   const passportMetadata = parsePassportData(passportData);
   const signatureAlgorithm = passportMetadata.cscaSignatureAlgorithm;
   const hashFunction = passportMetadata.cscaHashFunction;
@@ -49,7 +48,7 @@ function getDSCircuitNameFromPassportData(passportData: PassportData) {
 
 }
 
-function getDSRegisterNameFromPassportData(passportData: PassportData) {
+function getRegisterNameFromPassportData(passportData: PassportData) {
   const passportMetadata = parsePassportData(passportData);
   const parsedDsc = parseCertificateSimple(passportData.dsc);
   const dgHashAlgo = passportMetadata.dg1HashFunction;
